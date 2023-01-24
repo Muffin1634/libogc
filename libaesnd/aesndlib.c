@@ -628,15 +628,22 @@ void AESND_SetVoiceFrequency(AESNDPB *pb,f32 freq)
 	_CPU_ISR_Restore(level);
 }
 
+/* when used with a constant, the compiler does the math itself
+ * ok for figuring out which bit a flag is? definitely ok for defines
+ * dont use for 0 though because thats undefined
+ *
+ * putting it down here because only the 4 following functions use it, but later
+ * could be moved out to <ogc/machine/processor.h> or something
+ */
+#define _gethighestbit(num)	(int)log2(num)
+
 void AESND_SetVoiceStream(AESNDPB *pb,bool stream)
 {
 	u32 level;
 
 	_CPU_ISR_Disable(level);
-	if(stream==true)
-		pb->flags |= VOICE_STREAM;
-	else
-		pb->flags &= ~VOICE_STREAM;
+	pb->flags = (pb->flags & ~VOICE_STREAM)
+		  | (stream << _gethighestbit(VOICE_STREAM));
 	_CPU_ISR_Restore(level);
 }
 
@@ -645,10 +652,8 @@ void AESND_SetVoiceLoop(AESNDPB *pb,bool loop)
 	u32 level;
 
 	_CPU_ISR_Disable(level);
-	if(loop==true)
-		pb->flags |= VOICE_LOOP;
-	else
-		pb->flags &= ~VOICE_LOOP;
+	pb->flags = (pb->flags & ~VOICE_LOOP)
+		  | (loop << _gethighestbit(VOICE_LOOP));
 	_CPU_ISR_Restore(level);
 }
 
@@ -657,10 +662,8 @@ void AESND_SetVoiceMute(AESNDPB *pb,bool mute)
 	u32 level;
 
 	_CPU_ISR_Disable(level);
-	if(mute==true)
-		pb->flags |= VOICE_PAUSE;
-	else
-		pb->flags &= ~VOICE_PAUSE;
+	pb->flags = (pb->flags & ~VOICE_PAUSE)
+		  | (mute << _gethighestbit(VOICE_PAUSE));
 	_CPU_ISR_Restore(level);
 }
 
@@ -669,10 +672,8 @@ void AESND_SetVoiceStop(AESNDPB *pb,bool stop)
 	u32 level;
 
 	_CPU_ISR_Disable(level);
-	if(stop==true)
-		pb->flags |= VOICE_STOPPED;
-	else
-		pb->flags &= ~VOICE_STOPPED;
+	pb->flags = (pb->flags & ~VOICE_STOPPED)
+		  | (stop << _gethighestbit(VOICE_STOPPED));
 	_CPU_ISR_Restore(level);
 }
 
