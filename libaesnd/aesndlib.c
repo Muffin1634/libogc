@@ -131,24 +131,12 @@ static __inline__ void __aesndcopycommand(AESNDPB *dst,AESNDPB *src)
 	dst->cbArg = src->cbArg;
 }
 
-
 static __inline__ void __aesndsetvoiceformat(AESNDPB *pb,u32 format)
 {
-	pb->flags = (pb->flags&~0x07)|(format&0x07);
-	switch((format&0x07)) {
-		case VOICE_MONO8:
-		case VOICE_STEREO8:
-		case VOICE_MONO8_UNSIGNED:
-		case VOICE_STEREO8_UNSIGNED:
-			pb->shift = 0;
-			break;
-		case VOICE_MONO16:
-		case VOICE_STEREO16:
-		case VOICE_MONO16_UNSIGNED:
-		case VOICE_STEREO16_UNSIGNED:
-			pb->shift = 1;
-			break;
-	}
+	// exploiting the fact that the switch case was basically checking for
+	// bit 1 and instead write that in pure bitwise logic to remove branching
+	pb->flags = (pb->flags & ~0x07) | (format & 0x07);
+	pb->shift = (format & 0x02) >> 1;
 }
 
 static __inline__ void __aesndsetvoicebuffer(AESNDPB *pb,void* buffer,u32 len)
