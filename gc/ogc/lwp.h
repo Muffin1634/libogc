@@ -99,13 +99,13 @@ s32 LWP_SuspendThread(lwp_t thethread);
 s32 LWP_ResumeThread(lwp_t thethread);
 
 
-/*! \fn BOOL LWP_ThreadIsSuspended(lwp_t thethread)
+/*! \fn bool LWP_ThreadIsSuspended(lwp_t thethread)
 \brief Test whether the given thread is suspended or not
 \param[in] thethread handle to the thread context which should be tested.
 
 \return TRUE or FALSE
 */
-BOOL LWP_ThreadIsSuspended(lwp_t thethread);
+bool LWP_ThreadIsSuspended(lwp_t thethread);
 
 
 /*! \fn lwp_t LWP_GetSelf(void)
