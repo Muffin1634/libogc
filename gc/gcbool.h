@@ -1,16 +1,18 @@
 #pragma once
 
-typedef unsigned int BOOL;
-/*+----------------------------------------------------------------------------------------------+*/
-// alias type typedefs
-#define FIXED s32                                       ///< Alias type for sfp32
-/*+----------------------------------------------------------------------------------------------+*/
-#ifndef TRUE
-#define TRUE    1                                       ///< True
-#endif
-/*+----------------------------------------------------------------------------------------------+*/
-#ifndef FALSE
-#define FALSE   0                                       ///< False
-#endif
-/*+----------------------------------------------------------------------------------------------+*/
+#warning This header is deprecated, and remains only for backwards compatibility. \
+	<gccore.h> includes <stdbool.h>; you should switch to using that.
 
+#include <gccore.h>
+
+#ifndef BOOL
+#define BOOL	bool
+#endif
+
+#ifndef TRUE
+#define TRUE	true
+#endif
+
+#ifndef FALSE
+#define FALSE	false
+#endif
