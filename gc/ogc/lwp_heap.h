@@ -2,7 +2,6 @@
 #define __LWP_HEAP_H__
 
 #include <gctypes.h>
-#include <gcbool.h>
 #include "machine/asm.h"
 
 #define HEAP_BLOCK_USED					1

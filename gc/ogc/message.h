@@ -37,7 +37,6 @@ distribution.
 */ 
 
 #include <gctypes.h>
-#include <gcbool.h>
 
 #define MQ_BOX_NULL				0xffffffff
 

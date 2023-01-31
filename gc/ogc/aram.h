@@ -38,7 +38,6 @@ distribution.
  */ 
 
 #include <gctypes.h>
-#include <gcbool.h>
 
 /*! 
  * \addtogroup dmamode ARAM DMA transfer direction
