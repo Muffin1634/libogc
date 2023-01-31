@@ -52,8 +52,8 @@ u32 __lwp_mutex_surrender(lwp_mutex *mutex)
 
 	mutex->holder = NULL;
 	if(__lwp_mutex_isinheritprio(&mutex->atrrs) || __lwp_mutex_isprioceiling(&mutex->atrrs)) {
-		if(holder->res_cnt==0 && holder->real_prio!=holder->cur_prio) 
-			__lwp_thread_changepriority(holder,holder->real_prio,TRUE);
+		if(holder->res_cnt==0 && holder->real_prio!=holder->cur_prio)
+			__lwp_thread_changepriority(holder,holder->real_prio,true);
 	}
 	
 	if((thethread=__lwp_threadqueue_dequeue(&mutex->wait_queue))) {
@@ -74,7 +74,7 @@ void __lwp_mutex_seize_irq_blocking(lwp_mutex *mutex,u64 timeout)
 	exec = _thr_executing;
 	if(__lwp_mutex_isinheritprio(&mutex->atrrs)){
 		if(mutex->holder->cur_prio>exec->cur_prio)
-			__lwp_thread_changepriority(mutex->holder,exec->cur_prio,FALSE);
+			__lwp_thread_changepriority(mutex->holder,exec->cur_prio,false);
 	}
 
 	mutex->blocked_cnt++;
@@ -83,7 +83,7 @@ void __lwp_mutex_seize_irq_blocking(lwp_mutex *mutex,u64 timeout)
 	if(_thr_executing->wait.ret_code==LWP_MUTEX_SUCCESSFUL) {
 		if(__lwp_mutex_isprioceiling(&mutex->atrrs)) {
 			if(mutex->atrrs.prioceil<exec->cur_prio) 
-				__lwp_thread_changepriority(exec,mutex->atrrs.prioceil,FALSE);
+				__lwp_thread_changepriority(exec,mutex->atrrs.prioceil,false);
 		}
 	}
 	__lwp_thread_dispatchenable();
