@@ -7,4 +7,9 @@ gc/ogc/libversion.h
 *.bz2
 docs
 warn.log
+
+# sublime text files
 sublime/
+
+# clangd LSP flags file
+compile_flags.txt
