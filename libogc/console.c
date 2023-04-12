@@ -66,7 +66,7 @@ static const unsigned int color_table[] =
   0xEB80EB80,		// 37 bright white
 };
 
-static u32 do_xfb_copy = false;
+static bool do_xfb_copy = false;
 static struct _console_data_s stdcon;
 static struct _console_data_s *curr_con = NULL;
 static void *_console_buffer = NULL;
@@ -80,11 +80,13 @@ void __console_vipostcb(u32 retraceCnt)
 {
 	u32 ycnt,xcnt, fb_stride;
 	u32 *fb,*ptr;
+	u32 offset;
 
 	do_xfb_copy = true;
 
-	ptr = curr_con->destbuffer;
-	fb = VIDEO_GetCurrentFramebuffer()+(curr_con->target_y*curr_con->tgt_stride) + curr_con->target_x*VI_DISPLAY_PIX_SZ;
+	offset = (curr_con->target_y*curr_con->tgt_stride) + curr_con->target_x*VI_DISPLAY_PIX_SZ;
+	ptr = curr_con->destbuffer+offset;
+	fb = VIDEO_GetCurrentFramebuffer()+offset;
 	fb_stride = curr_con->tgt_stride/4 - (curr_con->con_xres/VI_DISPLAY_PIX_SZ);
 
 	for(ycnt=curr_con->con_yres;ycnt>0;ycnt--)
@@ -115,7 +117,8 @@ static void __console_drawc(int c)
 	if(!curr_con) return;
 	con = curr_con;
 
-	ptr = (unsigned int*)(con->destbuffer + ( con->con_stride *  con->cursor_row * FONT_YSIZE ) + ((con->cursor_col * FONT_XSIZE / 2) * 4));
+	ptr = (unsigned int*)(con->destbuffer + ( con->con_stride * con->cursor_row * FONT_YSIZE ) + ((con->cursor_col * FONT_XSIZE / 2) * 4) +
+						 (curr_con->target_y*curr_con->tgt_stride) + curr_con->target_x*VI_DISPLAY_PIX_SZ);
 	pbits = &con->font[c * FONT_YSIZE];
 	nextline = con->con_stride/4 - 4;
 	fgcolor = con->foreground;
@@ -261,11 +264,15 @@ void __console_init(void *framebuffer,int xstart,int ystart,int xres,int yres,in
 	con->destbuffer = framebuffer;
 	con->con_xres = xres;
 	con->con_yres = yres;
-	con->con_cols = xres / FONT_XSIZE;
-	con->con_rows = yres / FONT_YSIZE;
+	con->con_cols = (xres - xstart) / FONT_XSIZE;
+	con->con_rows = (yres - ystart) / FONT_YSIZE;
 	con->con_stride = con->tgt_stride = stride;
 	con->target_x = xstart;
 	con->target_y = ystart;
+	con->cursor_row = 0;
+	con->cursor_col = 0;
+	con->saved_row = 0;
+	con->saved_col = 0;
 
 	con->font = console_font_8x16;
 
@@ -298,8 +305,8 @@ void __console_init_ex(void *conbuffer,int tgt_xstart,int tgt_ystart,int tgt_str
 	con->con_yres = con_yres;
 	con->tgt_stride = tgt_stride;
 	con->con_stride = con_stride;
-	con->con_cols = con_xres / FONT_XSIZE;
-	con->con_rows = con_yres / FONT_YSIZE;
+	con->con_cols = (con_xres - tgt_xstart) / FONT_XSIZE;
+	con->con_rows = (con_yres - tgt_ystart) / FONT_YSIZE;
 	con->cursor_row = 0;
 	con->cursor_col = 0;
 	con->saved_row = 0;

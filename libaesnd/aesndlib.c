@@ -487,7 +487,8 @@ void AESND_Reset(void)
 		} while(__aesnddspinit);
 
 #if defined(HW_DOL)
-		for(i=0;i<MAX_VOICES;i++) AR_Free(NULL);
+		for(u32 i=0;i<MAX_VOICES;i++)
+			AR_Free(NULL);
 #endif
 		__aesndinit = 0;
 	}
