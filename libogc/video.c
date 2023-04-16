@@ -29,20 +29,21 @@ video.c -- VIDEO subsystem
 
 -------------------------------------------------------------*/
 
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+
 #include "asm.h"
 #include "processor.h"
-#include "ogcsys.h"
+
 #include "irq.h"
 #include "exi.h"
 #include "gx.h"
 #include "si.h"
 #include "lwp.h"
 #include "system.h"
+#include "conf.h"
 #include "video.h"
 #include "video_types.h"
 
