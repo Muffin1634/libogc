@@ -8,8 +8,5 @@ gc/ogc/libversion.h
 docs
 warn.log
 
-# sublime text files
-sublime/
-
 # clangd LSP flags file
 compile_flags.txt
