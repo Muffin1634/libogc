@@ -472,7 +472,7 @@ void AESND_Init(void)
 
 void AESND_Reset(void)
 {
-	u32 i,level;
+	u32 level;
 
 	_CPU_ISR_Disable(level);
 	if(__aesndinit) {
