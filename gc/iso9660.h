@@ -9,6 +9,7 @@
 #define __ISO9660_H__
 
 #include <gctypes.h>
+#include <ogc/disc_io.h>
 
 #define ISO_MAXPATHLEN		128
 

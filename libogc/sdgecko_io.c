@@ -49,7 +49,7 @@ u8 g_CardStatus[MAX_DRIVE][64];
 
 u8 g_mCode[MAX_MI_NUM] = { 0x03 };
 
-u16 g_dCode[MAX_MI_NUM][MAX_DI_NUM] = 
+u16 g_dCode[MAX_MI_NUM][MAX_DI_NUM] =
 {
 	{
 		0x033f,			/* SD   8Mb */
@@ -59,10 +59,9 @@ u16 g_dCode[MAX_MI_NUM][MAX_DI_NUM] =
 		0x0f03			/* SD 128Mb */
 	}
 };
- 
+
 static u8 _ioWPFlag;
 static u8 _ioClrFlag;
-
 
 static u32 _ioCardFreq[MAX_DRIVE];
 static u32 _ioRetryCnt;
@@ -82,8 +81,6 @@ static u16 _ioCrc16Table[256];
 // SDHC support
 static u32 _initType[MAX_DRIVE];
 static card_addressing_type_t _ioAddressingType[MAX_DRIVE];
-
-extern unsigned long gettick(void);
 
 static __inline__ u32 __check_response(s32 drv_no,u8 res)
 {

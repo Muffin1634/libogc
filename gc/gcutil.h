@@ -21,4 +21,12 @@
 #define _ROTL(v,s)			\
 	(((u32)v<<s)|((u32)v>>(0x20-s)))
 
+#ifndef MAX
+#define MAX(a,b) (((a)>(b))?(a):(b))
+#endif
+
+#ifndef MIN
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#endif
+
 #endif /* _GCUTIL_H */

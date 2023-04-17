@@ -5,7 +5,7 @@
 #include "processor.h"
 #include "lwp.h"
 
-#include "timesupp.h"
+#include "ogcsys.h"
 #include "exi.h"
 #include "system.h"
 #include "conf.h"
@@ -166,7 +166,7 @@ int __libogc_nanosleep(const struct timespec *tb, struct timespec *rem)
 	__lwp_wd_insert_ticks(&_thr_executing->timer,timeout);
 
 	__lwp_thread_dispatchenable();
-	return TB_SUCCESSFUL;
+	return 0;
 }
 
 clock_t clock(void) {

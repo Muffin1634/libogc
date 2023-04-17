@@ -6,14 +6,13 @@
  ****************************************************************************/
 
 #include <errno.h>
-#include <ogc/lwp_watchdog.h>
-#include <ogcsys.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/dir.h>
 #include <sys/iosupport.h>
 
+#include <gcutil.h>
 #include "iso9660.h"
 
 #define OFFSET_EXTENDED 1

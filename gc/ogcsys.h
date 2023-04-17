@@ -1,8 +1,7 @@
 #ifndef __OGCSYS_H__
 #define __OGCSYS_H__
 
-#include <gccore.h>
-#include <sys/types.h>
+#include <gctypes.h>
 
 #if defined(HW_RVL)
 	#define TB_BUS_CLOCK				243000000u
@@ -27,5 +26,38 @@
 #define TB_HRSPERDAY					24
 #define TB_SECSPERDAY					(TB_SECSPERMIN*TB_MINSPERHR*TB_HRSPERDAY)
 #define TB_SECSPERNYR					(365*TB_SECSPERDAY)
+
+#define ticks_to_cycles(ticks)		((((u64)(ticks)*(u64)((TB_CORE_CLOCK*2)/TB_TIMER_CLOCK))/2))
+#define ticks_to_secs(ticks)		(((u64)(ticks)/(u64)(TB_TIMER_CLOCK*1000)))
+#define ticks_to_millisecs(ticks)	(((u64)(ticks)/(u64)(TB_TIMER_CLOCK)))
+#define ticks_to_microsecs(ticks)	((((u64)(ticks)*8)/(u64)(TB_TIMER_CLOCK/125)))
+#define ticks_to_nanosecs(ticks)	((((u64)(ticks)*8000)/(u64)(TB_TIMER_CLOCK/125)))
+
+#define tick_microsecs(ticks)		((((u64)(ticks)*8)/(u64)(TB_TIMER_CLOCK/125))%TB_USPERSEC)
+#define tick_nanosecs(ticks)		((((u64)(ticks)*8000)/(u64)(TB_TIMER_CLOCK/125))%TB_NSPERSEC)
+
+#define secs_to_ticks(sec)			((u64)(sec)*(TB_TIMER_CLOCK*1000))
+#define millisecs_to_ticks(msec)	((u64)(msec)*(TB_TIMER_CLOCK))
+#define microsecs_to_ticks(usec)	(((u64)(usec)*(TB_TIMER_CLOCK/125))/8)
+#define nanosecs_to_ticks(nsec)		(((u64)(nsec)*(TB_TIMER_CLOCK/125))/8000)
+
+#define diff_ticks(tick0,tick1)		(((u64)(tick1)<(u64)(tick0))?((u64)-1-(u64)(tick0)+(u64)(tick1)):((u64)(tick1)-(u64)(tick0)))
+
+#ifdef __cplusplus
+	extern "C" {
+#endif
+
+extern u32 gettick(void);
+extern u64 gettime(void);
+extern void settime(u64);
+
+u32 diff_sec(u64 start, u64 end);
+u32 diff_msec(u64 start, u64 end);
+u32 diff_usec(u64 start, u64 end);
+u32 diff_nsec(u64 start, u64 end);
+
+#ifdef __cplusplus
+	}
+#endif
 
 #endif
