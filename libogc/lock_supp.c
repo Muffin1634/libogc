@@ -11,8 +11,6 @@
 #include "asm.h"
 #include "processor.h"
 #include "mutex.h"
-#include <gcbool.h>
-
 
 static void __libogc_lock_init(_LOCK_T *lock,int recursive)
 {
@@ -22,7 +20,7 @@ static void __libogc_lock_init(_LOCK_T *lock,int recursive)
 	if(!lock) return;
 
 	*lock = 0;
-	ret = LWP_MutexInit(&retlck,(recursive?TRUE:FALSE));
+	ret = LWP_MutexInit(&retlck,recursive);
 	if(ret==0) *lock = (_LOCK_T)retlck;
 
 }
